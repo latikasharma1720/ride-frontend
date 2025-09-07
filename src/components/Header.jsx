@@ -13,10 +13,11 @@ export default function Header() {
 
           <nav className="main-nav" aria-label="Primary">
             <NavLink to="/" end>Home</NavLink>
-            <NavLink to="/services">Services</NavLink>   {/* ✅ points to /services */}
+            <NavLink to="/services">Services</NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/faq">FAQ</NavLink>
             <NavLink to="/pricing">Pricing</NavLink>
+
             <div className="nav-actions">
               <NavLink to="/signup" className="btn btn-pill btn-dark">SignUp</NavLink>
               <NavLink to="/login" className="btn btn-pill btn-outline">Login</NavLink>
