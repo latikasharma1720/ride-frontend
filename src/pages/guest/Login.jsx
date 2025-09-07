@@ -1,28 +1,58 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  // TEMP: hard-coded admins (replace with real auth later)
+  const ADMINS = ["admin@pfw.edu", "shari01@pfw.edu"].map((e) => e.toLowerCase());
 
-  const onSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: integrate real auth
-    alert(`Logging in as ${form.email}`);
+
+    const userEmail = email.trim().toLowerCase();
+
+    // very basic “auth”: treat PFW emails as valid users
+    const isPfwEmail = /@pfw\.edu$/i.test(userEmail);
+    if (!isPfwEmail) {
+      alert("Please use a valid PFW email address.");
+      return;
+    }
+
+    const role = ADMINS.includes(userEmail) ? "admin" : "student";
+    localStorage.setItem("role", role);
+    localStorage.setItem("email", userEmail);
+
+    // redirect
+    if (role === "admin") {
+      navigate("/admin/reports", { replace: true });
+    } else {
+      navigate("/student/profile", { replace: true });
+    }
   };
 
   return (
-    <div className="card" style={{ maxWidth: 480 }}>
+    <div className="login-page">
       <h1>Login</h1>
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label><br />
-        <input id="email" name="email" type="email" placeholder="you@pfw.edu"
-               value={form.email} onChange={onChange} required />
-        <br /><br />
-        <label htmlFor="password">Password</label><br />
-        <input id="password" name="password" type="password" placeholder="********"
-               value={form.password} onChange={onChange} required />
-        <br /><br />
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
         <button type="submit">Login</button>
       </form>
     </div>
