@@ -12,7 +12,7 @@ export default function Home() {
 
         <div className="hero-cta">
           <Link to="/signup" className="btn btn-lg btn-primary">Book a Ride</Link>
-          <Link to="/services" className="btn btn-lg btn-outline">Learn More</Link> {/* ✅ now goes to /services */}
+          <Link to="/services" className="btn btn-lg btn-outline">Learn More</Link>
         </div>
       </div>
 
